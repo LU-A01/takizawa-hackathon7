@@ -3,8 +3,6 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 
-import { apiRoutes } from './presentation/routes/api.routes';
-
 const app = new Hono();
 
 // ミドルウェア
@@ -27,7 +25,7 @@ app.use(
 app.get('/', (c) => c.text('Hono バックエンドサーバー'));
 
 // API ルート
-app.route('/api', apiRoutes);
+// app.route('/api', apiRoutes);
 
 // サーバー起動
 const port = process.env.PORT || 3000;

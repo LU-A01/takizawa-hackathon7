@@ -2,7 +2,6 @@
 	import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
 	import Header from '$lib/components/layout/Header.svelte';
-	import DevThemeToolbar from '$lib/components/layout/DevThemeToolbar.svelte';
 	
 	let { children } = $props();
 	let darkMode = $state(false);
@@ -83,14 +82,4 @@
 	<main class="mx-auto max-w-5xl px-6 py-8">
 		{@render children()}
 	</main>
-	
-	<!-- 開発環境用のテーマツールバー -->
-	{#if isDev}
-		<DevThemeToolbar 
-			{darkMode} 
-			{setLightMode} 
-			{setDarkMode} 
-			{resetToSystemTheme} 
-		/>
-	{/if}
 </div>
