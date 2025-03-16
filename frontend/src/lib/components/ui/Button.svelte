@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  
+  import { createEventDispatcher } from "svelte";
+
   type Variant = "default" | "outline" | "ghost" | "danger";
   type Size = "default" | "sm" | "lg" | "icon";
 
@@ -24,7 +24,7 @@
   }>();
 
   const dispatch = createEventDispatcher();
-  
+
   function handleClick() {
     if (onClick) onClick();
   }
@@ -32,10 +32,11 @@
   // Variants
   const variants: Record<Variant, string> = {
     default:
-      "bg-gradient-to-r from-[#0d99ff] to-[#0d83ff] text-white shadow-md hover:shadow-lg hover:translate-y-[-1px] active:translate-y-[0px] transition-all dark:from-[#0d99ff] dark:to-[#0d83ff] dark:text-white dark:shadow-[0_4px_14px_0_rgba(13,153,255,0.2)]",
+      "bg-gradient-to-r from-green-mid to-green-deep text-white shadow-md hover:shadow-lg hover:translate-y-[-1px] active:translate-y-[0px] transition-all dark:from-green-light dark:to-green-mid dark:text-white dark:shadow-[0_4px_14px_0_rgba(5,150,105,0.2)]",
     outline:
       "border border-theme bg-theme-card text-theme-primary shadow-sm hover:bg-theme-hover hover:shadow-md transition-all",
-    ghost: "bg-transparent text-theme-primary hover:bg-theme-hover transition-all",
+    ghost:
+      "bg-transparent text-theme-primary hover:bg-theme-hover transition-all",
     danger:
       "bg-gradient-to-r from-[#ff80ab] to-[#ff4081] text-white shadow-md hover:shadow-lg hover:translate-y-[-1px] active:translate-y-[0px] transition-all dark:shadow-[0_4px_14px_0_rgba(255,128,171,0.25)]",
   };

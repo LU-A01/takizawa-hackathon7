@@ -18,17 +18,17 @@
   /* ライトモード用の変数 */
   --color-bg-primary: #f9fafb; /* bg-gray-50相当 */
   --color-bg-secondary: #ffffff; /* bg-white相当 */
-  --color-bg-accent: #0d99ff;
+  --color-bg-accent: #059669; /* 緑系のアクセントカラー - 以前は青(#0d99ff) */
   --color-bg-card: #ffffff;
   --color-bg-header: #ffffff;
   --color-bg-hover: #f3f4f6; /* hover用のライトグレー */
   --color-bg-button-hover: #e0e0e0; /* ボタンホバー用のグレー */
   --color-bg-delete-hover: #f0f0f0; /* 削除ボタンホバー用のライトグレー */
-  --color-bg-accent-hover: #0a85e0; /* アクセントボタンホバー用 */
+  --color-bg-accent-hover: #047857; /* アクセントボタンホバー用 - 濃い緑 */
 
   --color-text-primary: #111827; /* text-gray-900相当 */
   --color-text-secondary: #4b5563; /* text-gray-600相当 */
-  --color-text-accent: #0d99ff;
+  --color-text-accent: #059669; /* 緑系のアクセントカラー - 以前は青(#0d99ff) */
   --color-text-muted: #6b7280; /* text-gray-500相当 */
   --color-text-delete: #ff4081; /* 削除アクション用のテキスト色 */
   --color-text-delete-hover: #4f4f4f; /* 削除ボタンホバー用のテキスト色 */
@@ -38,12 +38,7 @@
   --color-border-hover: #9ca3af; /* hover時のボーダー色 */
 
   --color-shadow: rgba(0, 0, 0, 0.1);
-  --color-shadow-accent: rgba(
-    13,
-    153,
-    255,
-    0.4
-  ); /* アクセントカラーのシャドウ */
+  --color-shadow-accent: rgba(5, 150, 105, 0.4); /* アクセントカラーのシャドウ - 緑系に変更 */
 
   /* アニメーション速度 */
   --transition-speed: 0.2s;
@@ -53,17 +48,17 @@
 .dark {
   --color-bg-primary: #1e1e1e; /* 元のdark:bg-[#1e1e1e] */
   --color-bg-secondary: #252525; /* 元のdark:bg-[#252525] */
-  --color-bg-accent: #0d99ff;
+  --color-bg-accent: #10b981; /* 暗い背景に合わせて少し明るい緑 */
   --color-bg-card: #252525; /* 元のdark:bg-[#252525] */
   --color-bg-header: #252525; /* 元のdark:bg-[#252525] */
   --color-bg-hover: #323232; /* ダークモードのhover色 */
   --color-bg-button-hover: #3a3a3a; /* ダークモードのボタンホバー色 */
   --color-bg-delete-hover: #3a2a30; /* ダークモードの削除ボタンホバー背景 */
-  --color-bg-accent-hover: #1ea5ff; /* ダークモードのアクセントボタンホバー */
+  --color-bg-accent-hover: #059669; /* ダークモードのアクセントボタンホバー - 中間の緑 */
 
   --color-text-primary: #f9fafb; /* dark:text-gray-100相当 */
   --color-text-secondary: #9ca3af; /* dark:text-gray-400相当 */
-  --color-text-accent: #0d99ff;
+  --color-text-accent: #6EE7B7; /* 明るい緑 - ダークモードでの視認性向上 */
   --color-text-muted: #9ca3af; /* dark:text-gray-400相当 */
   --color-text-delete: #ff80ab; /* ダークモードの削除アクション用テキスト色 */
   --color-text-delete-hover: #ff80ab; /* ダークモードの削除ボタンホバー用テキスト色 */
@@ -73,12 +68,7 @@
   --color-border-hover: #6b7280; /* ダークモードのhover時ボーダー色 */
 
   --color-shadow: rgba(0, 0, 0, 0.3);
-  --color-shadow-accent: rgba(
-    13,
-    153,
-    255,
-    0.4
-  ); /* アクセントカラーのシャドウ */
+  --color-shadow-accent: rgba(16, 185, 129, 0.4); /* アクセントカラーのシャドウ - 緑系に変更 */
 }
 
 /* 基本スタイル */
