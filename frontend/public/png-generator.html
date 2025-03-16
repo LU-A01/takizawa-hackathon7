@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TsunaAgri ロゴPNG生成</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #059669;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .logo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+    .logo-item:hover {
+      transform: translateY(-5px);
+    }
+    .logo-name {
+      font-weight: bold;
+      margin: 10px 0;
+      color: #333;
+    }
+    .logo-image {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px dashed #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+    .small {
+      width: 128px;
+      height: 128px;
+    }
+    .medium {
+      width: 256px;
+      height: 256px; 
+    }
+    .large {
+      width: 512px;
+      height: 512px;
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .download-btn {
+      background-color: #059669;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+    .download-btn:hover {
+      background-color: #047857;
+    }
+    .instructions {
+      margin-top: 40px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>TsunaAgri ロゴPNG生成</h1>
+  
+  <div class="logo-grid">
+    <div class="logo-item">
+      <h2>アイコン (カラー)</h2>
+      <div class="logo-image">
+        <canvas id="canvas-icon" width="128" height="128"></canvas>
+      </div>
+      <p class="logo-name">tsunaagri-icon.png</p>
+      <button class="download-btn" onclick="downloadPNG('icon', 128)">PNGをダウンロード</button>
+    </div>
+    
+    <div class="logo-item">
+      <h2>ロゴ (小 128px)</h2>
+      <div class="logo-image">
+        <canvas id="canvas-128" width="128" height="128"></canvas>
+      </div>
+      <p class="logo-name">tsunaagri-logo-128.png</p>
+      <button class="download-btn" onclick="downloadPNG('128', 128)">PNGをダウンロード</button>
+    </div>
+    
+    <div class="logo-item">
+      <h2>ロゴ (中 256px)</h2>
+      <div class="logo-image">
+        <canvas id="canvas-256" width="256" height="256"></canvas>
+      </div>
+      <p class="logo-name">tsunaagri-logo-256.png</p>
+      <button class="download-btn" onclick="downloadPNG('256', 256)">PNGをダウンロード</button>
+    </div>
+    
+    <div class="logo-item">
+      <h2>ロゴ (大 512px)</h2>
+      <div class="logo-image">
+        <canvas id="canvas-512" width="512" height="512"></canvas>
+      </div>
+      <p class="logo-name">tsunaagri-logo-512.png</p>
+      <button class="download-btn" onclick="downloadPNG('512', 512)">PNGをダウンロード</button>
+    </div>
+  </div>
+  
+  <div class="instructions">
+    <h3>使用方法</h3>
+    <ol>
+      <li>ロゴの下にある「PNGをダウンロード」ボタンをクリックします。</li>
+      <li>画像が自動的にダウンロードされます。</li>
+      <li>ダウンロードしたPNG画像はアプリのアイコンやロゴとして使用できます。</li>
+    </ol>
+  </div>
+
+  <script>
+    // SVGの読み込みと描画
+    function loadAndDrawSVG(svgUrl, canvasId, width, height) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      
+      const img = new Image();
+      img.onload = function() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+      };
+      img.src = svgUrl;
+    }
+
+    // PNGのダウンロード
+    function downloadPNG(type, size) {
+      const canvas = document.getElementById(`canvas-${type}`);
+      const dataUrl = canvas.toDataURL('image/png');
+      
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `tsunaagri-${type === 'icon' ? 'icon' : `logo-${type}`}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // ページ読み込み時に実行
+    window.onload = function() {
+      // 各SVGを読み込んでキャンバスに描画
+      loadAndDrawSVG('/images/tsunaagri-icon.svg', 'canvas-icon', 128, 128);
+      loadAndDrawSVG('/images/tsunaagri-logo-128.svg', 'canvas-128', 128, 128);
+      loadAndDrawSVG('/images/tsunaagri-logo-256.svg', 'canvas-256', 256, 256);
+      loadAndDrawSVG('/images/tsunaagri-logo-512.svg', 'canvas-512', 512, 512);
+    };
+  </script>
+</body>
+</html> 

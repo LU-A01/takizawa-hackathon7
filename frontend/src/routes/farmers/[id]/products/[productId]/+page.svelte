@@ -2,33 +2,9 @@
     import { page } from "$app/stores";
     import { onMount } from "svelte";
     import QRCode from "qrcode";
-
-    interface Product {
-        id: number;
-        name: string;
-        image: string;
-        description: string;
-        harvestSeason: string;
-        price: string;
-        videoUrl: string;
-        processVideos?: ProcessVideo[];
-    }
-
-    interface Farmer {
-        id: number;
-        name: string;
-        icon: string;
-        description: string;
-        location?: string;
-    }
-
-    interface ProcessVideo {
-        id: number;
-        title: string;
-        videoUrl: string;
-        description: string;
-        likes: number;
-    }
+    import { getFarmerById } from "$lib/api/farmerApi";
+    import type { Farmer } from "$lib/types/Farmer";
+    import type { Product, ProcessVideo } from "$lib/types/Product";
 
     interface Review {
         id: number;
@@ -45,6 +21,7 @@
         name: "",
         icon: "",
         description: "",
+        products: [],
     });
 
     let product = $state<Product>({
@@ -148,169 +125,91 @@
         }
     }
 
-    onMount(() => {
-        // ここで実際にはAPIからデータを取得する
-        // モックデータを使用して表示
-        if (farmerId === "1") {
-            farmer = {
-                id: 1,
-                name: "鈴木農園",
-                icon: "/images/farmer1.jpg",
-                description: "自然と共に生きる農業を目指しています。",
-                location: "長野県松本市",
-            };
+    onMount(async () => {
+        try {
+            // APIから農家データを取得
+            const farmerData = await getFarmerById(Number(farmerId));
 
-            if (productId === "1") {
-                product = {
-                    id: 1,
-                    name: "有機にんじん",
-                    image: "/images/carrot.jpg",
-                    description:
-                        "甘みが強く、生でも美味しく食べられる有機栽培のにんじんです。栄養価が高く、ビタミンAやカロテンを豊富に含んでいます。土づくりから丁寧に行い、農薬や化学肥料を使わずに栽培しています。そのため、お子様からお年寄りまで安心してお召し上がりいただけます。生でサラダに、煮込み料理に、様々な料理にお使いいただけます。",
-                    harvestSeason: "春・秋",
-                    price: "300円/束",
-                    videoUrl: "/videos/carrot-growth.mp4",
-                    processVideos: [
+            if (farmerData) {
+                farmer = farmerData;
+
+                // 商品データはまだAPIがないのでモックデータを使用
+                if (farmerId === "1" && productId === "1") {
+                    product = {
+                        id: 1,
+                        name: "有機にんじん",
+                        image: "/images/carrot.jpg",
+                        description:
+                            "甘みが強く、生でも美味しく食べられる有機栽培のにんじんです。栄養価が高く、ビタミンAやカロテンを豊富に含んでいます。土づくりから丁寧に行い、農薬や化学肥料を使わずに栽培しています。そのため、お子様からお年寄りまで安心してお召し上がりいただけます。生でサラダに、煮込み料理に、様々な料理にお使いいただけます。",
+                        harvestSeason: "春・秋",
+                        price: "300円/束",
+                        videoUrl: "/videos/carrot-growth.mp4",
+                        processVideos: [
+                            {
+                                id: 1,
+                                title: "種まきから収穫まで",
+                                videoUrl: "/videos/carrot-process1.mp4",
+                                description:
+                                    "有機にんじんの種まきから収穫までの過程を紹介します。",
+                                likes: 24,
+                            },
+                            {
+                                id: 2,
+                                title: "土づくりのこだわり",
+                                videoUrl: "/videos/carrot-process2.mp4",
+                                description:
+                                    "美味しいにんじんを育てるための土づくりについて解説します。",
+                                likes: 18,
+                            },
+                        ],
+                    };
+
+                    reviews = [
                         {
                             id: 1,
-                            title: "種まきから収穫まで",
-                            videoUrl: "/videos/carrot-process1.mp4",
-                            description:
-                                "有機にんじんの種まきから収穫までの過程を紹介します。",
-                            likes: 24,
+                            userName: "野菜大好き主婦",
+                            rating: 5,
+                            comment:
+                                "とても甘くて美味しいにんじんです！子供も喜んで食べています。生でもサラダで美味しいです。",
+                            createdAt: "2023/06/15",
+                            likes: 8,
                         },
                         {
                             id: 2,
-                            title: "土づくりのこだわり",
-                            videoUrl: "/videos/carrot-process2.mp4",
-                            description:
-                                "美味しいにんじんを育てるための土づくりについて解説します。",
-                            likes: 18,
+                            userName: "料理人ケン",
+                            rating: 4,
+                            comment:
+                                "煮込み料理に使うと、しっかりとした味と甘みが出て美味しいです。調理しても色鮮やかなのもいいですね。",
+                            createdAt: "2023/05/23",
+                            likes: 5,
                         },
-                    ],
-                };
+                    ];
+                } else {
+                    // その他のケースも同様に設定（省略）
+                    // デフォルトデータを使用
+                    product = {
+                        id: parseInt(productId),
+                        name: "サンプル商品",
+                        image: "/images/default-product.jpg",
+                        description: "これはサンプル商品です。",
+                        harvestSeason: "春",
+                        price: "100円/個",
+                        videoUrl: "/videos/sample.mp4",
+                    };
 
-                reviews = [
-                    {
-                        id: 1,
-                        userName: "野菜大好き主婦",
-                        rating: 5,
-                        comment:
-                            "とても甘くて美味しいにんじんです！子供も喜んで食べています。生でもサラダで美味しいです。",
-                        createdAt: "2023/06/15",
-                        likes: 8,
-                    },
-                    {
-                        id: 2,
-                        userName: "料理人ケン",
-                        rating: 4,
-                        comment:
-                            "煮込み料理に使うと、しっかりとした味と甘みが出て美味しいです。調理しても色鮮やかなのもいいですね。",
-                        createdAt: "2023/05/23",
-                        likes: 5,
-                    },
-                ];
-            } else if (productId === "2") {
-                // じゃがいものデータ
-                product = {
-                    id: 2,
-                    name: "じゃがいも（キタアカリ）",
-                    image: "/images/potato.jpg",
-                    description:
-                        "ホクホクとした食感と甘みが特徴の人気品種です。煮崩れしにくく、様々な料理に使えます。ビタミンCが豊富で、皮近くに栄養素が多く含まれているので、皮ごと調理するのもおすすめです。肥沃な土壌で育てられ、独自の栽培方法により、一般的なじゃがいもよりも甘みが強いのが特徴です。",
-                    harvestSeason: "夏",
-                    price: "400円/kg",
-                    videoUrl: "/videos/potato-growth.mp4",
-                    processVideos: [
-                        {
-                            id: 3,
-                            title: "じゃがいもの植え付け",
-                            videoUrl: "/videos/potato-process1.mp4",
-                            description: "春のじゃがいも植え付けの様子です。",
-                            likes: 15,
-                        },
-                    ],
-                };
-
-                reviews = [
-                    {
-                        id: 3,
-                        userName: "ポテト好き",
-                        rating: 5,
-                        comment:
-                            "本当に美味しいじゃがいもです。シンプルに塩ゆでにしても甘みがあって最高です！",
-                        createdAt: "2023/07/10",
-                        likes: 12,
-                    },
-                ];
+                    reviews = [];
+                }
             } else {
-                // その他の商品
-                product = {
-                    id: 3,
-                    name: "フルーツトマト",
-                    image: "/images/tomato.jpg",
-                    description:
-                        "糖度8度以上の甘いトマト。朝採りのフレッシュな味わいをお届けします。一般的なトマトよりも甘みが強く、フルーツのようにそのままでも美味しく食べられます。丁寧な水管理と日照管理によって、糖度を高めています。サラダはもちろん、カプレーゼなど、シンプルな調理法で素材の味を活かすのがおすすめです。",
-                    harvestSeason: "夏",
-                    price: "600円/パック",
-                    videoUrl: "/videos/tomato-growth.mp4",
-                    processVideos: [
-                        {
-                            id: 4,
-                            title: "トマトの栽培環境",
-                            videoUrl: "/videos/tomato-process1.mp4",
-                            description:
-                                "甘いトマトを育てるための環境づくりについて紹介します。",
-                            likes: 32,
-                        },
-                    ],
-                };
-
-                reviews = [
-                    {
-                        id: 4,
-                        userName: "トマト大好き",
-                        rating: 5,
-                        comment:
-                            "これまで食べたトマトの中で一番甘いです！本当にフルーツのような味わいで感動しました。",
-                        createdAt: "2023/08/05",
-                        likes: 15,
-                    },
-                    {
-                        id: 5,
-                        userName: "料理研究家",
-                        rating: 4,
-                        comment:
-                            "カプレーゼに使いましたが、甘みと酸味のバランスが絶妙で、シンプルな調理でも美味しさが引き立ちます。",
-                        createdAt: "2023/07/28",
-                        likes: 9,
-                    },
-                ];
+                console.error(
+                    `農家ID ${farmerId} のデータが見つかりませんでした`,
+                );
             }
-        } else {
-            // その他のケースも同様に設定（省略）
-            farmer = {
-                id: parseInt(farmerId),
-                name: "サンプル農園",
-                icon: "/images/default-farmer.jpg",
-                description: "サンプルデータです。",
-            };
 
-            product = {
-                id: parseInt(productId),
-                name: "サンプル商品",
-                image: "/images/default-product.jpg",
-                description: "これはサンプル商品です。",
-                harvestSeason: "春",
-                price: "100円/個",
-                videoUrl: "/videos/sample.mp4",
-            };
-
-            reviews = [];
+            // ページ読み込み時にQRコードを生成
+            generateQRCode();
+        } catch (error) {
+            console.error("データの取得中にエラーが発生しました:", error);
         }
-
-        // ページ読み込み時にQRコードを生成
-        generateQRCode();
     });
 
     // 画像読み込みエラー時のハンドラー
@@ -375,7 +274,7 @@
                             src={product.image}
                             alt="{product.name}の写真"
                             class="w-full h-full object-cover"
-                            on:error={handleImageError}
+                            onerror={handleImageError}
                         />
                     </div>
 
@@ -390,6 +289,13 @@
                                     controls
                                     class="w-full h-full object-cover"
                                 >
+                                    <track
+                                        kind="captions"
+                                        label="日本語"
+                                        src="/captions/product-video-ja.vtt"
+                                        srclang="ja"
+                                        default
+                                    />
                                     お使いのブラウザは動画再生に対応していません。
                                 </video>
                             </div>
@@ -406,7 +312,7 @@
                                 src={farmer.icon}
                                 alt="{farmer.name}のプロフィール画像"
                                 class="w-full h-full object-cover"
-                                on:error={handleFarmerImageError}
+                                onerror={handleFarmerImageError}
                             />
                         </div>
                         <div>
@@ -514,7 +420,7 @@
                             {:else}
                                 <button
                                     class="px-4 py-2 bg-theme-accent text-white rounded-lg hover:bg-theme-accent-hover transition-colors"
-                                    on:click={generateQRCode}
+                                    onclick={generateQRCode}
                                 >
                                     QRコードを生成
                                 </button>
@@ -542,6 +448,13 @@
                             controls
                             class="w-full h-full object-cover"
                         >
+                            <track
+                                kind="captions"
+                                label="日本語"
+                                src={`/captions/${video.id}-ja.vtt`}
+                                srclang="ja"
+                                default
+                            />
                             お使いのブラウザは動画再生に対応していません。
                         </video>
                     </div>
@@ -557,7 +470,7 @@
                         <div class="flex items-center">
                             <button
                                 class="flex items-center text-theme-secondary dark:text-theme-secondary hover:text-theme-accent transition-colors"
-                                on:click={() => likeVideo(video.id)}
+                                onclick={() => likeVideo(video.id)}
                             >
                                 <svg
                                     class="w-5 h-5 mr-1"
@@ -591,7 +504,13 @@
             <h3 class="text-xl font-semibold mb-4 text-theme-primary">
                 レビューを投稿する
             </h3>
-            <form on:submit|preventDefault={submitReview} class="space-y-4">
+            <form
+                onsubmit={(e) => {
+                    e.preventDefault();
+                    submitReview();
+                }}
+                class="space-y-4"
+            >
                 <div>
                     <label
                         for="userName"
@@ -608,15 +527,23 @@
 
                 <div>
                     <label
+                        for="rating"
                         class="block text-sm font-medium text-theme-primary dark:text-theme-primary mb-1"
                         >評価</label
                     >
+                    <input
+                        type="hidden"
+                        id="rating"
+                        name="rating"
+                        value={newReview.rating}
+                    />
                     <div class="flex items-center">
                         {#each Array(5) as _, i}
                             <button
                                 type="button"
-                                on:click={() => (newReview.rating = i + 1)}
+                                onclick={() => (newReview.rating = i + 1)}
                                 class="text-2xl text-theme-accent focus:outline-none"
+                                aria-label="{i + 1}星の評価"
                             >
                                 {#if i < newReview.rating}
                                     ★
@@ -689,7 +616,7 @@
                         <div class="flex items-center">
                             <button
                                 class="flex items-center text-theme-secondary dark:text-theme-secondary hover:text-theme-accent transition-colors"
-                                on:click={() => likeReview(review.id)}
+                                onclick={() => likeReview(review.id)}
                             >
                                 <svg
                                     class="w-5 h-5 mr-1"

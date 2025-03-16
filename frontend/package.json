@@ -18,7 +18,8 @@
     "format": "bunx @biomejs/biome format --write .",
     "biome:check": "bunx @biomejs/biome check .",
     "biome:lint": "bunx @biomejs/biome lint .",
-    "biome:format": "bunx @biomejs/biome format --write ."
+    "biome:format": "bunx @biomejs/biome format --write .",
+    "generate-icons": "bun scripts/generate-png.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
@@ -41,6 +42,9 @@
     "vitest": "^3.0.0"
   },
   "dependencies": {
-    "qrcode": "^1.5.4"
+    "@types/leaflet": "^1.9.16",
+    "leaflet": "^1.9.4",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.33.5"
   }
 }
