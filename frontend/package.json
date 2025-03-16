@@ -18,7 +18,8 @@
     "format": "bunx @biomejs/biome format --write .",
     "biome:check": "bunx @biomejs/biome check .",
     "biome:lint": "bunx @biomejs/biome lint .",
-    "biome:format": "bunx @biomejs/biome format --write ."
+    "biome:format": "bunx @biomejs/biome format --write .",
+    "generate-icons": "bun scripts/generate-png.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
@@ -31,6 +32,7 @@
     "@tailwindcss/vite": "^4.0.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/svelte": "^5.2.7",
+    "@types/qrcode": "^1.5.5",
     "jsdom": "^26.0.0",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
@@ -38,5 +40,11 @@
     "typescript": "5.3.3",
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "@types/leaflet": "^1.9.16",
+    "leaflet": "^1.9.4",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.33.5"
   }
 }

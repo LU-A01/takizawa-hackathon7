@@ -2,6 +2,8 @@ import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { setupFarmerRoutes } from './presentation/routes/farmerRoutes';
+import { productRoutes } from './presentation/routes/productRoutes';
 
 const app = new Hono();
 
@@ -26,6 +28,10 @@ app.get('/', (c) => c.text('Hono バックエンドサーバー'));
 
 // API ルート
 // app.route('/api', apiRoutes);
+// 農家データのAPIルートを追加
+app.route('/api', setupFarmerRoutes());
+// 商品データのAPIルートを追加
+productRoutes(app);
 
 // サーバー起動
 const port = process.env.PORT || 3000;

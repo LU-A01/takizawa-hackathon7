@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
 	import Header from '$lib/components/layout/Header.svelte';
+	import Footer from '$lib/components/layout/Footer.svelte';
 	
 	let { children } = $props();
 	let darkMode = $state(false);
@@ -36,6 +37,9 @@
 		// メディアクエリのリスナーをセットアップ
 		mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 		mediaQuery.addEventListener('change', handleSystemThemeChange);
+
+		// ダークモードの適用
+		document.documentElement.classList.toggle('dark', darkMode);
 	});
 	
 	// コンポーネント破棄時にリスナーを削除
@@ -75,11 +79,13 @@
 	}
 </script>
 
-<div class="min-h-screen bg-theme-primary text-theme-primary transition-colors duration-200">
+<div class="min-h-screen bg-theme-primary text-theme-primary transition-colors duration-200 flex flex-col">
 	<Header {darkMode} {toggleDarkMode} />
 
 	<!-- メインコンテンツ -->
-	<main class="mx-auto max-w-5xl px-6 py-8">
+	<main class="flex-grow">
 		{@render children()}
 	</main>
+
+	<Footer />
 </div>
