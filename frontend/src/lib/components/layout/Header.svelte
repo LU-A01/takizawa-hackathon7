@@ -10,7 +10,7 @@
   }>();
 </script>
 
-<header class="border-b border-theme bg-theme-header px-6 py-4 shadow-theme transition-colors duration-200">
+<header class="border-b border-theme bg-theme-header px-6 py-4 shadow-theme transition-colors duration-200 z-10">
   <div class="mx-auto flex max-w-5xl items-center justify-between">
     <div class="flex items-center gap-2">
       <div class="flex h-8 w-8 items-center justify-center rounded-md bg-[#0d99ff] text-white">
