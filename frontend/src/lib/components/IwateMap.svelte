@@ -40,7 +40,7 @@
             return leafletModule.divIcon({
                 className: "bg-transparent border-0",
                 html: `
-                    <div class="w-6 h-6 rounded-full border-2 border-white shadow-md" style="background-color: ${color};"></div>
+                    <div class="w-6 h-6 rounded-full border-2 border-green-600/70 shadow-md" style="background-color: ${color};"></div>
                 `,
                 iconSize: [24, 24],
                 iconAnchor: [12, 12],

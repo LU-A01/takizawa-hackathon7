@@ -22,7 +22,10 @@
         <p class="price">{formatPrice(product.price)}</p>
         <p class="season">収穫時期: {product.harvestSeason}</p>
         <p class="description">{product.description}</p>
-        <a href={`/products/${product.id}`} class="view-details">詳細を見る</a>
+        <a
+            href={`/farmers/${product.farmerId}/products/${product.id}`}
+            class="view-details">詳細を見る</a
+        >
     </div>
 </div>
 

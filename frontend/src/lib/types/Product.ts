@@ -18,6 +18,8 @@ export interface Product {
   videoUrl: string;
   /** 栽培過程の動画 */
   processVideos?: ProcessVideo[];
+  /** 農家のID */
+  farmerId: number;
 }
 
 /**
